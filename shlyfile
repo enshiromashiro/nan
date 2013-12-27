@@ -1,0 +1,43 @@
+;; shlyfile for nan
+
+(load "nan.asd")
+(ql:quickload :nan)
+
+(load "nan-test.asd")
+(ql:quickload :nan-test)
+
+;; app name
+(defvar *app-name* "nan")
+
+;; toplevel function
+(defvar *app-toplevel* #'nan:app)
+
+;; save application
+(defun save-app ()
+  #+sbcl (sb-ext:save-lisp-and-die *app-name*
+								   :toplevel *app-toplevel*
+								   :executable t)
+  #+clisp (ext:saveinitmem *app-name*
+						   :quiet t
+						   :norc t
+						   :init-function (lambda ()
+											(funcall *app-toplevel*)
+											(ext:exit))
+						   :executable t)
+  #+ccl (ccl:save-application *app-name*
+							  :toplevel-function *app-toplevel*
+							  :prepend-kernel t))
+
+(defvar *temp-files*
+  nil)
+
+;; test all
+(defun test ()
+  (flet ((clear-temp ()
+           (dolist (f *temp-files*)
+             (if (probe-file f)
+                 (asdf/run-program:run-program (list "rm" f))))))
+    (clear-temp)
+    (cl-test-more:run-test-all)
+    (clear-temp)))
+
