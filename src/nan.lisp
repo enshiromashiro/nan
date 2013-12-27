@@ -49,7 +49,6 @@
 nan: text -> result(map)
 *args
 text: input file. a list of strings."
-  (format t "~a~%" *nan*)
   (if (null text)
 	  (print-usage)
 	  (analyze-text text)))
@@ -59,7 +58,7 @@ text: input file. a list of strings."
   "toplevel function"
   (multiple-value-bind (_ opts args)
       (getopt (cli-options) *cli-short-options* *cli-long-options*)
-    (fotmat t "~%~a ~a~%~%" *app-name* *version*)
+    (format t "~%~a ~a~%~%" *app-name* *version*)
 
     (if (member "debug" opts :test #'equal)
         (setf util:*debug* t))
