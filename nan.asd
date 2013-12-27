@@ -18,7 +18,9 @@
   :version "0.1"
   :author "subaru45"
   :license "NYSL"
-  :depends-on ()
+  :depends-on (:cl-annot
+               :unix-options
+               :ngn)
   :components ((:module "src"
                 :components
                 ((:file "nan"))))
