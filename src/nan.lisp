@@ -35,9 +35,6 @@
 (defvar *app-name*
   "nan - novel analyzer")
 
-(defvar *version*
-  "v0.5.0")
-
 (defun print-usage ()
   "print usage."
   (dolist (line *usage*)
@@ -58,7 +55,7 @@ text: input file. a list of strings."
   "toplevel function"
   (multiple-value-bind (_ opts args)
       (getopt (cli-options) *cli-short-options* *cli-long-options*)
-    (format t "~%~a ~a~%~%" *app-name* *version*)
+    (format t "~%~a ~a~%~%" *app-name* (slot-value (asdf:find-system :nan) 'asdf:version))
 
     (if (member "debug" opts :test #'equal)
         (setf util:*debug* t))
