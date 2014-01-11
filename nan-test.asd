@@ -15,5 +15,6 @@
                :cl-test-more)
   :components ((:module "t"
                 :components
-                ((:file "nan"))))
+                ((:file "nan")
+                 (:file "dfa"))))
   :perform (load-op :after (op c) (asdf:clear-system c)))

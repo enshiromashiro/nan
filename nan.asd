@@ -23,7 +23,8 @@
                :ngn)
   :components ((:module "src"
                 :components
-                ((:file "nan"))))
+                ((:file "nan")
+                 (:file "dfa"))))
   :description "novel analyzer"
   :long-description
   #.(with-open-file (stream (merge-pathnames
