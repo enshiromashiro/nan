@@ -44,9 +44,8 @@
 
 (deftest nan.dfa.define-dfa
     (diag "nan.dfa:define-dfa")
-  (let ((dfa (define-dfa :test-dfa)))
-    (is (name-of dfa) :test-dfa)
-    (is (states-of dfa) nil)))
+  (is-expand (define-dfa :test-dfa)
+             (make-instance '<dfa> :name :test-dfa :states 'nil)))
 
 
 (finalize)
