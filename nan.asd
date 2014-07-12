@@ -19,12 +19,14 @@
   :author "subaru45"
   :license "NYSL"
   :depends-on (:cl-annot
+               :dfa
+               :trivial-shell
                :unix-options
-               :ngn)
+);               :ngn)
   :components ((:module "src"
                 :components
                 ((:file "nan")
-                 (:file "dfa"))))
+                 (:file "analysis"))))
   :description "novel analyzer"
   :long-description
   #.(with-open-file (stream (merge-pathnames
