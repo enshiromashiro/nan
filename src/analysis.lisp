@@ -186,9 +186,9 @@ Each string in the list of strings is not includes #\newline."
                (apply #'+ (mapcar (lambda (x) (- (cdr x) (car x))) result))
                0)))
     (if (consp (first result))
-        (vector (calc) (nreverse result))
+        (cons (calc) (nreverse result))
         (progn (pop result)
-               (vector (calc) (nreverse result)))))
+               (cons (calc) (nreverse result)))))
   (cond ((eq st 'ps) (push i result))
         ((eq st 'pe) (push (cons (pop result) (1- i)) result))))
 
@@ -294,27 +294,30 @@ Each string in the list of strings is not includes #\newline."
     `((:paper-num ,(calc-paper-num str))
       (:char-num ,@(multiple-value-list (count-charnum str)))
       (:linum ,(length text))
-      (:words-num ,@(multiple-value-list (words-num str)))
+      (:words-num ,@(multiple-value-bind
+                     (res info)
+                     (words-num str)
+                     info))
       (:line-head-indent ,@(multiple-value-bind
                             (res pos)
                             (line-head-indent str)
-                            (list (not res) pos)))
+                            pos))
       (:close-paren-without-punc ,@(multiple-value-bind
                                     (res pos)
                                     (close-paren-without-punc str)
-                                    (list (not res) pos)))
+                                    pos))
       (:!?-with-blank ,@(multiple-value-bind
                          (res pos)
                          (!?-with-blank str)
-                         (list (not res) pos)))
+                         pos))
       (:ellipsis-twice ,@(multiple-value-bind
                           (res pos)
                           (ellipsis-twice str)
-                          (list (not res) pos)))
+                          pos))
       (:dash-twice ,@(multiple-value-bind
                       (res pos)
                       (dash-twice str)
-                      (list (not res) pos))))))
+                      pos)))))
 
 @export
 (defun get-result (name results)
