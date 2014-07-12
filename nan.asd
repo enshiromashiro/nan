@@ -25,7 +25,7 @@
 );               :ngn)
   :components ((:module "src"
                 :components
-                ((:file "nan")
+                ((:file "nan" :depends-on ("analysis"))
                  (:file "analysis"))))
   :description "novel analyzer"
   :long-description
