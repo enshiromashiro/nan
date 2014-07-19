@@ -290,34 +290,33 @@ Each string in the list of strings is not includes #\newline."
 ;;   ...)
 @export
 (defun analyze-text (text)
-  (let ((str (strlist-string text)))
-    `((:paper-num ,(calc-paper-num str))
-      (:char-num ,@(multiple-value-list (count-charnum str)))
-      (:linum ,(length text))
-      (:words-num ,@(multiple-value-bind
-                     (res info)
-                     (words-num str)
-                     info))
-      (:line-head-indent ,@(multiple-value-bind
-                            (res pos)
-                            (line-head-indent str)
-                            pos))
-      (:close-paren-without-punc ,@(multiple-value-bind
-                                    (res pos)
-                                    (close-paren-without-punc str)
-                                    pos))
-      (:!?-with-blank ,@(multiple-value-bind
-                         (res pos)
-                         (!?-with-blank str)
-                         pos))
-      (:ellipsis-twice ,@(multiple-value-bind
+  `((:paper-num ,(calc-paper-num text))
+    (:char-num ,@(multiple-value-list (count-charnum text)))
+    (:linum ,(length (string-strlist text)))
+    (:words-num ,@(multiple-value-bind
+                   (res info)
+                   (words-num text)
+                   info))
+    (:line-head-indent ,@(multiple-value-bind
                           (res pos)
-                          (ellipsis-twice str)
+                          (line-head-indent text)
                           pos))
-      (:dash-twice ,@(multiple-value-bind
-                      (res pos)
-                      (dash-twice str)
-                      pos)))))
+    (:close-paren-without-punc ,@(multiple-value-bind
+                                  (res pos)
+                                  (close-paren-without-punc text)
+                                  pos))
+    (:!?-with-blank ,@(multiple-value-bind
+                       (res pos)
+                       (!?-with-blank text)
+                       pos))
+    (:ellipsis-twice ,@(multiple-value-bind
+                        (res pos)
+                        (ellipsis-twice text)
+                        pos))
+    (:dash-twice ,@(multiple-value-bind
+                    (res pos)
+                    (dash-twice text)
+                    pos))))
 
 @export
 (defun get-result (name results)
