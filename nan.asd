@@ -20,6 +20,7 @@
   :license "NYSL"
   :depends-on (:cl-annot
                :dfa
+               :text-io
                :trivial-shell
                :unix-options
 );               :ngn)
