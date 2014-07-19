@@ -16,5 +16,5 @@
   :components ((:module "t"
                 :components
                 ((:file "nan")
-                 (:file "dfa"))))
+                 (:file "analysis"))))
   :perform (load-op :after (op c) (asdf:clear-system c)))
