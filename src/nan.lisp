@@ -175,9 +175,7 @@ pathname: input file name."
         (print-usage)
         (if (member "s" args :test #'equal)
             (format t "~s~%" (analyze-text text))
-            (print-result (analyze-text text)
-                          text
-                          (remove "s" args))))))
+            (print-result (analyze-text text) text args)))))
 
 @export
 (defun app ()
@@ -196,7 +194,7 @@ pathname: input file name."
           (print-usage)
           (handler-case
               (nan input-file
-                   (remove input-file (remove "debug" args)))
+                   (remove input-file (remove "debug" opts :test #'equal)))
             (condition (c)
               (progn (err "~% ERROR OCCURED: ~a~%~%" c)
                      (exit 1))))))))
