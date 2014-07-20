@@ -32,7 +32,9 @@
 
 (defun dbg (format &rest rest)
   (if *debug*
-      (apply #'format t format rest)))
+      (apply #'format t
+             (concatenate 'string "[debug] " format)
+             rest)))
 
 (defun info (format &rest rest)
   (apply #'format *standard-output* format rest))
@@ -113,6 +115,7 @@
 
 
 (defun print-result (res str args)
+  (dbg "[print-result] args: ~s~%" args)
   (format-unless-1arg args ";; reulst~%")
   
   (format-unless-1arg args "; info~%")
@@ -186,7 +189,7 @@ pathname: input file name."
 
     (if (member "debug" opts :test #'equal)
         (setf *debug* t))
-    (dbg "args: ~s" (cli-options))
+    (dbg "args: ~s~%" (cli-options))
     
     (let ((input-file (nth 0 args))) ; TODO
       (if (null input-file)
