@@ -194,7 +194,7 @@ Each string in the list of strings is not includes #\newline."
 
 ;; 行頭で字下げをしていること
 (defchecker line-head-indent
-    (ch (end)
+    (nl (end)
         (ch ((nl "
 ") ; normal character
              (end "")
@@ -209,7 +209,7 @@ Each string in the list of strings is not includes #\newline."
               (ch t))))
   nil
   (nreverse result)
-  (cond ((eq st 'err) (push i result))))
+  (cond ((eq st 'err) (push (1- i) result))))
 
 ;; 閉じカッコ前に句読点がないこと
 (defchecker close-paren-without-punc
