@@ -26,7 +26,12 @@
                            :executable t)
   #+ccl (ccl:save-application *app-name*
                               :toplevel-function *app-toplevel*
-                              :prepend-kernel t))
+                              :prepend-kernel t)
+  #+ecl (asdf:make-build :nan
+                         :type :program
+                         :monolithic t
+                         :move-here "."
+                         :epilogue-code '(nan:app)))
 
 ;; test all
 (defun test ()
