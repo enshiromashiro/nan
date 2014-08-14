@@ -63,6 +63,12 @@
 	"       print deubgging messages.")
   "ngn usage strings.")
 
+(defun surplus-output-p (args)
+  (or (equal '("d") args)
+      (equal '("w") args)
+      (equal '("debug") args)
+      (not (eq (length args) 1))))
+
 (defvar *app-name*
   "nan - novel analyzer")
 
@@ -97,9 +103,7 @@
        (print-surrounding str p)))
 
 (defun format-unless-1arg (args fmt &rest rest)
-  (when (or (equal '("d") args)
-            (equal '("w") args)
-            (not (eq (length args) 1)))
+  (when (surplus-output-p args)
     (apply #'format t `(,fmt ,@rest))))
 
 (defmacro print-item ((key ch name)
@@ -183,11 +187,14 @@ pathname: input file name."
   (multiple-value-bind (_ opts args)
       (getopt (cli-options) *cli-short-options* *cli-long-options*)
     (declare (ignore _))
-    (info "~%~a ~a~%~%" *app-name* (slot-value (asdf:find-system :nan) 'asdf:version))
+    (when (surplus-output-p opts)
+      (info "~%~a ~a~%~%" *app-name* (slot-value (asdf:find-system :nan) 'asdf:version)))
 
     (if (member "debug" opts :test #'equal)
         (setf *debug* t))
-    (dbg "args: ~s~%" (cli-options))
+    (dbg "cli-args: ~s~%" (cli-options))
+    (dbg "args: ~s~%" args)
+    (dbg "opts: ~s~%" opts)
     
     (let ((input-file (nth 0 args))) ; TODO
       (if (null input-file)
